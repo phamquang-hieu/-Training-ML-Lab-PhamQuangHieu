@@ -68,8 +68,7 @@ def get_tf_idf(data_path):
 									for index, tf_idf_value in words_tfidfs]
 		sparse_rep = ' '.join(words_tfidfs_normalized)
 		data_tf_idf.append((label, doc_id, sparse_rep))
-	print("hello")
-	with open("datasets/20news-bydate/words_tfidfs_rep.txt", "w") as f:
+	with open("datasets/20news-bydate/20news-full-tfidf.txt", "w") as f:
 		f.write('\n'.join(str(line[0]) + '<fff>' + str(line[1]) + '<fff>' + str(line[2])  for line in data_tf_idf) )
 
 # generateVocabulary("datasets/20news-bydate/20news-full-processed.txt")
