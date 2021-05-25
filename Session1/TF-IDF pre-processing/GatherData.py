@@ -35,6 +35,8 @@ def gather20NewsGroupsData():
 			for fileName, filePath in files:
 				with open(filePath) as f:
 					text = f.read().lower()
+					print(text)
+					exit()
 					words = [stemmer.stem(word) 
 							for word in re.split(r"\W+", text)
 							if word not in stop_words]
@@ -72,3 +74,5 @@ def gather20NewsGroupsData():
 
 
 
+
+# gather20NewsGroupsData()
