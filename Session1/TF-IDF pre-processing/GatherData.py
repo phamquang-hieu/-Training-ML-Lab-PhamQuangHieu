@@ -35,8 +35,6 @@ def gather20NewsGroupsData():
 			for fileName, filePath in files:
 				with open(filePath) as f:
 					text = f.read().lower()
-					print(text)
-					exit()
 					words = [stemmer.stem(word) 
 							for word in re.split(r"\W+", text)
 							if word not in stop_words]
@@ -44,6 +42,7 @@ def gather20NewsGroupsData():
 					# splitlines() function will split a string into lists.
 					# the spliting is done at line breaks
 					# guarantee that there is no extra line break after spliting
+					
 					assert len(content.splitlines()) == 1 
 					data.append(str(label) + '<fff>' + fileName + '<fff>' + content)
 		return data
@@ -68,7 +67,7 @@ def gather20NewsGroupsData():
 	with open("datasets/20news-bydate/20news-full-processed.txt", "w") as f:
 		f.write('\n'.join(fullData))
 
-# gather20NewsGroupsData()
+gather20NewsGroupsData()
 		
 			
 
