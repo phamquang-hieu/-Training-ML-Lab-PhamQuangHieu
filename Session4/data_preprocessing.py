@@ -9,10 +9,10 @@ padding_ID = 1
 MAX_DOC_LENGTH = 500
 
 def gen_data_and_vocab():
-	def collect_data_from(paren_path, newsgroup_list, word_count=None):
+	def collect_data_from(parent_path, newsgroup_list, word_count=None):
 		data = []
 		for group_id, newsgroup in enumerate(newsgroup_list):
-			dir_path = paren_path + '/' + newsgroup + '/'
+			dir_path = parent_path + '/' + newsgroup + '/'
 
 			files = [(filename, dir_path + filename)
 					for filename in listdir(dir_path) if 
@@ -46,7 +46,7 @@ def gen_data_and_vocab():
 	newsgroup_list.sort();
 
 	train_data = collect_data_from(
-		paren_path=train_path,
+		parent_path=train_path,
 		newsgroup_list=newsgroup_list,
 		word_count=word_count
 	)
@@ -56,39 +56,32 @@ def gen_data_and_vocab():
 	with open('datasets/w2v/vocab-raw.txt', 'w') as f:
 		f.write('\n'.join(vocab))
 
-		test_data = collect_data_from(
-			paren_path=test_path, 
-			newsgroup_list=newsgroup_list
-		)
+	test_data = collect_data_from(
+		parent_path=test_path, 
+		newsgroup_list=newsgroup_list
+	)
 
-		with open('datasets/w2v/20news-train-raw.txt', 'w') as f:
-			f.write('\n'.join(train_data))
+	with open('datasets/w2v/20news-train-raw.txt', 'w') as f:
+		f.write('\n'.join(train_data))
 
-		with open('datasets/w2v/20news-test-raw.txt', 'w') as f:
-			f.write('\n'.join(test_data))
+	with open('datasets/w2v/20news-test-raw.txt', 'w') as f:
+		f.write('\n'.join(test_data))
 
 def encode_data(data_path, vocab_path):
 	with open(vocab_path) as f:
 		vocab = dict([(word, word_ID + 2)
 					   for word_ID, word in enumerate(f.read().splitlines())])
 
-		with open(data_path) as f:
-			documents = [(line.split('<fff>')[0], line.split('<fff>')[1], line.split('<fff>')[2])
-						for line in f.read().splitlines()]
+	with open(data_path) as f:
+		documents = [(line.split('<fff>')[0], line.split('<fff>')[1], line.split('<fff>')[2])
+					for line in f.read().splitlines()]
 
-		encoded_data = []
+	encoded_data = []
 
-		for document in documents:
-			label, doc_id, text = document
-			words = text.split()[: MAX_DOC_LENGTH]
-			sentence_length = len(words)
-
-		dir_name = '/'.join(data_path.split('/')[:-1])
-		file_name = '-'.join(data_path.split('/')[-1].split('-')[:-1]) + '-encoded.txt'
-
-		with open(dir_name + '/' + file_name, 'w') as f:
-			f.write('\n'.join(encoded_data))
-
+	for document in documents:
+		label, doc_id, text = document
+		words = text.split()[: MAX_DOC_LENGTH]
+		sentence_length = len(words)
 		
 		encoded_text = []
 		for word in words:
@@ -108,7 +101,8 @@ def encode_data(data_path, vocab_path):
 	file_name = '-'.join(data_path.split('/')[-1].split('-')[:-1]) + '-encoded.txt'
 
 	with open(dir_name + '/' + file_name, 'w') as f:
-		f.write('/n'.join(encoded_data))
+		f.write('\n'.join(encoded_data))
+
 
 def process_data():
 	train_path_raw = 'datasets/w2v/20news-train-raw.txt'
@@ -119,4 +113,4 @@ def process_data():
 	encode_data(test_path_raw, vocab_path)
 
 if __name__ == '__main__':
-	process_data
+	process_data()

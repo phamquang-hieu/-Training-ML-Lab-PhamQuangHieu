@@ -4,12 +4,8 @@ import random
 from DataReader import DataReader
 from data_preprocessing import process_data
 from os.path import isfile
+import sys
 
-MAX_DOC_LENGTH = 500
-NUM_CLASSES = 20
-vocab_path = 'datasets/w2v/vocab-raw.txt'
-train_data_path = 'datasets/w2v/20news-train-encoded.txt'
-test_data_path = 'datasets/w2v/20news-test-encoded.txt'
 
 class RNN:
     def __init__(self,
@@ -145,6 +141,8 @@ def train_and_evaluate_RNN():
         while (step < max_step):
             next_train_batch = train_data_reader.next_batch()
             train_data, train_labels, train_sentence_lengths, train_final_tokens = next_train_batch
+            # print(train_data.shape, train_labels.shape, train_sentence_lengths.shape, train_final_tokens.shape)
+            # sys.exit()
             plabels_eval, loss_eval, _ = sess.run(
                 [predicted_labels, loss, train_op],
                 feed_dict={
@@ -182,6 +180,10 @@ def train_and_evaluate_RNN():
 
 
 if __name__ == '__main__':
-    
+    MAX_DOC_LENGTH = 500
+    NUM_CLASSES = 20
+    vocab_path = 'datasets/w2v/vocab-raw.txt'
+    train_data_path = 'datasets/w2v/20news-train-encoded.txt'
+    test_data_path = 'datasets/w2v/20news-test-encoded.txt'
     process_data()
     train_and_evaluate_RNN()

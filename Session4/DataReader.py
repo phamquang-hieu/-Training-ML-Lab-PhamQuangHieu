@@ -7,20 +7,24 @@ class DataReader:
         with open(data_path) as f:
             d_lines = f.read().splitlines()
         
-        self._data = np.array([])
-        self._labels = np.array([])
-        self._sentence_lengths = np.array([])
-        self._final_token = np.array([])
+        self._data = []
+        self._labels = []
+        self._sentence_lengths = []
+        self._final_token = []
         for data, line in enumerate(d_lines):
             feature = line.split('<fff>')
             label, doc_id, sentence_length = int(feature[0]), int(feature[1]), int(feature[2])
             data = feature[3].split()
             
-            self._data = np.append(self._data, data)
-            self._labels= np.append(self._labels, label)
-            self._sentence_lengths = np.append(self._sentence_lengths, sentence_length)
-            self._final_token= np.append(self._final_token, data[-1])
+            self._data.append(data)
+            self._labels.append(label)
+            self._sentence_lengths.append(sentence_length)
+            self._final_token.append(data[-1])
 
+        self._data = np.array(self._data)
+        self._labels = np.array(self._labels)
+        self._sentence_lengths = np.array(self._sentence_lengths)
+        self._final_token = np.array(self._final_token)
         self._num_epoch = 0
         self._batch_ID = 0
 
